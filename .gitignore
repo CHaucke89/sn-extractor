@@ -1,0 +1,5 @@
+1_ImportCert_Root.ps1
+2_ImportCert_TrustedPublisher.ps1
+DevCert.cer
+SN-Extractor.exe
+SNExtractor.zip
