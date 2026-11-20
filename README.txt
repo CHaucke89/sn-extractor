@@ -1,4 +1,4 @@
-SN Extractor
+Serial Number Extractor - Pull camera body and lens serial numbers from images
 ============
 1. Insert the SD card.
 2. Double-click "SN-Extractor.exe". It scans the card and lists the
