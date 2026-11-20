@@ -116,8 +116,8 @@ class MainForm : Form
     {
         this.args = args;
         Text = "Serial Number Extractor";
-        Width = 600;
-        Height = 440;
+        Width = 450;
+        Height = 360;
 
         list.Dock = DockStyle.Fill;
         list.View = View.Details;
