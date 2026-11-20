@@ -150,9 +150,12 @@ class MainForm : Form
     static readonly string[] Extensions = { ".jpg", ".jpeg", ".cr2", ".cr3", ".nef", ".arw", ".dng" };
 
     readonly ListView list = new ListView();
+    readonly Button scanButton = new Button();
+    readonly string[] args;
 
     MainForm(string[] args)
     {
+        this.args = args;
         Text = "Serial Number Extractor";
         Width = 600;
         Height = 440;
@@ -165,6 +168,22 @@ class MainForm : Form
         list.Columns.Add("Lens Serial", 100);
         Controls.Add(list);
 
+        // Added after the list so it docks first and the list fills the space below it.
+        Panel bar = new Panel();
+        bar.Dock = DockStyle.Top;
+        bar.Height = 32;
+        bar.Padding = new Padding(4);
+        scanButton.Text = "Scan";
+        scanButton.Dock = DockStyle.Left;
+        scanButton.Click += delegate { StartScan(); };
+        bar.Controls.Add(scanButton);
+        Controls.Add(bar);
+
+        Shown += delegate { StartScan(); };
+    }
+
+    void StartScan()
+    {
         // What to scan: a folder dropped onto the exe, otherwise every removable drive.
         List<string> roots = new List<string>();
         if (args.Length > 0)
@@ -174,14 +193,16 @@ class MainForm : Form
                 if (d.DriveType == DriveType.Removable && d.IsReady)
                     roots.Add(d.RootDirectory.FullName);
 
+        list.Items.Clear();
         if (roots.Count == 0)
         {
             Text = "No SD card found.";
             return;
         }
         Text = "Serial Number Extractor - scanning...";
+        scanButton.Enabled = false;
         // Scan on a background thread so the window stays responsive.
-        Shown += delegate { new Thread(delegate() { Scan(roots); }) { IsBackground = true }.Start(); };
+        new Thread(delegate() { Scan(roots); }) { IsBackground = true }.Start();
     }
 
     void Scan(List<string> roots)
@@ -195,6 +216,7 @@ class MainForm : Form
         {
             list.Items.AddRange(rows.ToArray());
             Text = "SN Extractor - " + rows.Count + " images";
+            scanButton.Enabled = true;
         });
     }
 
