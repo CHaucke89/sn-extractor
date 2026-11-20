@@ -116,7 +116,7 @@ class MainForm : Form
     {
         this.args = args;
         Text = "Serial Number Extractor";
-        Width = 450;
+        Width = 440;
         Height = 360;
 
         list.Dock = DockStyle.Fill;
