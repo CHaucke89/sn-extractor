@@ -122,7 +122,7 @@ class MainForm : Form
         list.Dock = DockStyle.Fill;
         list.View = View.Details;
         list.FullRowSelect = true;
-        list.Columns.Add("File", 250);
+        list.Columns.Add("File", 220);
         list.Columns.Add("Camera Serial", 100);
         list.Columns.Add("Lens Serial", 100);
         Controls.Add(list);
