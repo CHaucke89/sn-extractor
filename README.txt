@@ -6,4 +6,4 @@ Serial Number Extractor - Pull camera body and lens serial numbers from images
 
 The exe can be run from anywhere and no longer depends on exiftool.
 
-Compatible image formats: JPG, CR2, CR3, NEF, ARW, DNG
+Compatible image formats: JPG
