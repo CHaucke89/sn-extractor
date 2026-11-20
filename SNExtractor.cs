@@ -153,16 +153,16 @@ class MainForm : Form
 
     MainForm(string[] args)
     {
-        Text = "SN Extractor";
-        Width = 640;
-        Height = 480;
+        Text = "Serial Number Extractor";
+        Width = 600;
+        Height = 440;
 
         list.Dock = DockStyle.Fill;
         list.View = View.Details;
         list.FullRowSelect = true;
-        list.Columns.Add("File", 300);
-        list.Columns.Add("Camera Serial", 150);
-        list.Columns.Add("Lens Serial", 150);
+        list.Columns.Add("File", 250);
+        list.Columns.Add("Camera Serial", 100);
+        list.Columns.Add("Lens Serial", 100);
         Controls.Add(list);
 
         // What to scan: a folder dropped onto the exe, otherwise every removable drive.
@@ -176,10 +176,10 @@ class MainForm : Form
 
         if (roots.Count == 0)
         {
-            Text = "SN Extractor - no SD card found";
+            Text = "No SD card found.";
             return;
         }
-        Text = "SN Extractor - scanning...";
+        Text = "Serial Number Extractor - scanning...";
         // Scan on a background thread so the window stays responsive.
         Shown += delegate { new Thread(delegate() { Scan(roots); }) { IsBackground = true }.Start(); };
     }
