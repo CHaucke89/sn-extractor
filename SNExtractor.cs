@@ -22,15 +22,8 @@ static class ExifReader
             using (FileStream fs = File.OpenRead(path))
             {
                 BinaryReader r = new BinaryReader(fs);
-                byte[] head = r.ReadBytes(12);
-                if (head.Length < 12) return serials;
-
-                if (head[0] == 0xFF && head[1] == 0xD8)
+                if (r.ReadByte() == 0xFF && r.ReadByte() == 0xD8)
                     ReadJpeg(r, serials);
-                else if (Encoding.ASCII.GetString(head, 4, 4) == "ftyp")
-                    ReadCr3(r, serials);
-                else
-                    ReadTiff(r, 0, serials);   // CR2, NEF, ARW, DNG are TIFF files
             }
         }
         catch (Exception) { }   // unreadable or damaged file: leave blank
@@ -41,7 +34,6 @@ static class ExifReader
     static void ReadJpeg(BinaryReader r, string[] serials)
     {
         Stream s = r.BaseStream;
-        s.Position = 2;
         while (s.Position + 4 <= s.Length)
         {
             if (r.ReadByte() != 0xFF) return;
@@ -56,39 +48,6 @@ static class ExifReader
             if (marker == 0xDA) return;   // image data starts: no EXIF
             s.Position = next;
         }
-    }
-
-    // CR3: nested "boxes" (size + 4-letter name); EXIF tags are in moov > uuid > CMT2.
-    static void ReadCr3(BinaryReader r, string[] serials)
-    {
-        long end = r.BaseStream.Length;
-        long moov = FindBox(r, 0, end, "moov", ref end);
-        if (moov < 0) return;
-        long uuid = FindBox(r, moov, end, "uuid", ref end);
-        if (uuid < 0) return;
-        long cmt2 = FindBox(r, uuid + 16, end, "CMT2", ref end);   // skip 16-byte uuid value
-        if (cmt2 >= 0) ReadTiff(r, cmt2, serials);
-    }
-
-    // Finds a box by name in [start, end); returns where its contents start, or -1.
-    static long FindBox(BinaryReader r, long start, long end, string name, ref long boxEnd)
-    {
-        Stream s = r.BaseStream;
-        long pos = start;
-        while (pos + 8 <= end)
-        {
-            s.Position = pos;
-            byte[] h = r.ReadBytes(8);
-            long size = ((long)h[0] << 24) | ((long)h[1] << 16) | ((long)h[2] << 8) | h[3];
-            if (size < 8) return -1;
-            if (Encoding.ASCII.GetString(h, 4, 4) == name)
-            {
-                boxEnd = pos + size;
-                return pos + 8;
-            }
-            pos += size;
-        }
-        return -1;
     }
 
     // TIFF: a header, then a list of tags (an "IFD"). All offsets count from 'start'.
@@ -147,7 +106,7 @@ static class ExifReader
 
 class MainForm : Form
 {
-    static readonly string[] Extensions = { ".jpg", ".jpeg", ".cr2", ".cr3", ".nef", ".arw", ".dng" };
+    static readonly string[] Extensions = { ".jpg", ".jpeg" };
 
     readonly ListView list = new ListView();
     readonly Button scanButton = new Button();
