@@ -38,11 +38,8 @@ jobs:
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
           timestamp-digest: SHA256
 
-      - run: Compress-Archive -Path out/* -DestinationPath SNE-${{ github.ref_name }}.zip
-
       - name: Upload SNE
         uses: actions/upload-artifact@v4
         with:
-          name: SNE
-          path: out/SNE-${{ github.ref_name }}.zip
+          path: out/SNE.exe
           if-no-files-found: error
