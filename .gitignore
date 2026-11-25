@@ -3,3 +3,6 @@
 DevCert.cer
 SN-Extractor.exe
 SNExtractor.zip
+bin/
+obj/
+out/
