@@ -21,7 +21,7 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - run: dotnet publish SNExtractor.csproj -c Release -r win-x64 --self-contained false -o out
+      - run: dotnet publish SNExtractor.csproj -c Release -o out
 
       - uses: azure/login@v2
         with:
