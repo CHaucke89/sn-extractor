@@ -26,14 +26,16 @@ jobs:
           allow-no-subscriptions: true
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-
-      - uses: azure/artifact-signing-action@v2
+        
+      - name: Sign SNE.exe
+        if: github.ref == 'refs/heads/master'
+        uses: azure/artifact-signing-action@v2
         with:
           endpoint: https://eus.codesigning.azure.net/
           signing-account-name: haucke-labs
           certificate-profile-name: Personal
           files-folder: out
-          files-folder-filter: exe,dll
+          files-folder-filter: exe
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
           timestamp-digest: SHA256
