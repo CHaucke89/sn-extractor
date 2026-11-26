@@ -10,7 +10,6 @@ A tiny Windows app that scans a camera card and lists the Canon body and lens se
 
 - Scans every removable drive automatically when it opens
 - Shows the file, camera serial and lens serial for each JPG (blank means none was stored)
-- Drop a folder onto `SNE.exe` to scan that folder instead of the card
 - Single exe with no exiftool or other dependencies
 
 ## Download
