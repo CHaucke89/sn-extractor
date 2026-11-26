@@ -15,7 +15,11 @@ A tiny Windows app that scans a camera card and lists the Canon body and lens se
 
 ## Download
 
-Grab `SNE-<version>.exe` from the [latest release](https://github.com/chaucke89/sn-extractor/releases/latest). It's code-signed and runs on the .NET Framework 4.8 that ships with Windows, so there's nothing to install.
+Grab `SNE-<version>.exe` from the [latest release](https://github.com/chaucke89/sn-extractor/releases/latest). It runs on the .NET Framework 4.8 that ships with Windows, so there's nothing to install.
+
+### Code signing
+
+Every release exe is signed with my personal certificate through [Azure Artifact Signing](https://learn.microsoft.com/azure/artifact-signing/) as part of the release workflow, so Windows shows **Christopher Haucke** as the verified publisher. To check a download, right-click `SNE.exe` > **Properties** > **Digital Signatures**.
 
 ## Usage
 
