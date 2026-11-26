@@ -22,6 +22,7 @@ jobs:
       - run: dotnet publish SNExtractor.csproj -c Release -o out
 
       - uses: azure/login@v2
+        if: github.ref == 'refs/heads/master'
         with:
           allow-no-subscriptions: true
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
