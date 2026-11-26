@@ -40,8 +40,8 @@ jobs:
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
           timestamp-digest: SHA256
 
-      - run: Compress-Archive -Path out/* -DestinationPath SNE-${{ github.ref_name }}.zip
+      - run: Copy-Item out/SNE.exe SNE-${{ github.ref_name }}.exe
 
       - uses: softprops/action-gh-release@v2
         with:
-          files: SNE-${{ github.ref_name }}.zip
+          files: SNE-${{ github.ref_name }}.exe
